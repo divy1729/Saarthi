@@ -76,7 +76,7 @@ export default function Dashboard() {
       {answer && (
         <Card className="mb-8 animate-in fade-in zoom-in duration-500">
           <CardHeader>
-            <CardTitle>AI's Answer</CardTitle>
+            <CardTitle>AI&apos;s Answer</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-base whitespace-pre-line mb-4">

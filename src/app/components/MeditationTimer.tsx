@@ -76,9 +76,30 @@ export default function MeditationTimer() {
   useEffect(() => {
     setMounted(true);
     if (typeof window !== "undefined") {
-      setAudioContext(new (window.AudioContext || (window as any).webkitAudioContext)());
+      setAudioContext(new (window.AudioContext || 
+        // @ts-expect-error WebkitAudioContext is only available in some browsers
+        window.webkitAudioContext)());
     }
   }, []);
+
+  const playCompletionSound = React.useCallback(() => {
+    if (audioContext && typeof window !== "undefined") {
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+      oscillator.frequency.setValueAtTime(880, audioContext.currentTime + 0.5);
+      
+      gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 1);
+    }
+  }, [audioContext]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -91,7 +112,7 @@ export default function MeditationTimer() {
       playCompletionSound();
     }
     return () => clearInterval(interval);
-  }, [running, secondsLeft]);
+  }, [running, secondsLeft, playCompletionSound]);
 
   useEffect(() => {
     if (!krishnaRef.current) return;
@@ -128,25 +149,6 @@ export default function MeditationTimer() {
       oceanRef.current.loop = true;
     }
   }, [soundEnabled, running, selectedSound]);
-
-  const playCompletionSound = () => {
-    if (audioContext && typeof window !== "undefined") {
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-      
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      
-      oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
-      oscillator.frequency.setValueAtTime(880, audioContext.currentTime + 0.5);
-      
-      gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
-      
-      oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + 1);
-    }
-  };
 
   const start = () => {
     const duration = selectedSession ? selectedSession.duration * 60 : customMinutes * 60;

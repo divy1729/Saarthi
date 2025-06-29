@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useAuth } from "../../lib/auth";
 import { db } from "../../lib/firebase";
-import { collection, query, where, getDocs, orderBy, Timestamp } from "firebase/firestore";
+import { collection, query, where, getDocs, Timestamp } from "firebase/firestore";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { Badge } from "../../components/ui/badge";

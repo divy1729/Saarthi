@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../../lib/auth";
 import { db } from "../../lib/firebase";
-import { collection, addDoc, query, where, getDocs, orderBy, Timestamp } from "firebase/firestore";
+import { collection, addDoc, query, where, getDocs, Timestamp } from "firebase/firestore";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { Label } from "../../components/ui/label";
@@ -64,7 +64,7 @@ export default function MoodTracker() {
       // Sort by createdAt in descending order (newest first)
       fetchedEntries.sort((a, b) => b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime());
       setEntries(fetchedEntries);
-    } catch (err) {
+    } catch {
       toast.error("Failed to load mood entries");
     }
   }, [user]);
@@ -122,7 +122,7 @@ export default function MoodTracker() {
       setNotes("");
       setSelectedActivities([]);
       fetchEntries();
-    } catch (err) {
+    } catch {
       toast.error("Failed to save mood entry");
     }
   };
