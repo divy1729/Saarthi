@@ -14,7 +14,6 @@ import {
   BookOpen, 
   Clock, 
   Activity,
-  Target,
   Award,
   BarChart3,
   Smile,
@@ -22,6 +21,7 @@ import {
   Meh,
   MessageCircle
 } from "lucide-react";
+import Image from 'next/image';
 
 type JournalEntry = {
   id?: string;
@@ -59,15 +59,6 @@ export default function ProfilePage() {
   });
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!user) return;
-    fetchData();
-  }, [user]);
-
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -103,6 +94,15 @@ export default function ProfilePage() {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    fetchData();
+  }, [user, fetchData]);
 
   const calculateStats = (journalData: JournalEntry[], moodData: MoodEntry[]) => {
     const totalJournalEntries = journalData.length;
@@ -202,7 +202,7 @@ export default function ProfilePage() {
         <CardContent className="p-6">
           <div className="flex items-center gap-4">
             {user.photoURL && (
-              <img src={user.photoURL} alt="Profile" className="w-16 h-16 rounded-full border" />
+              <Image src={user.photoURL} alt="Profile" width={64} height={64} className="w-16 h-16 rounded-full border" />
             )}
             <div className="flex-1">
               <div className="text-2xl font-bold text-blue-700">{user.displayName || "User"}</div>
@@ -352,7 +352,7 @@ export default function ProfilePage() {
               ) : (
                 <div className="text-center py-8 text-gray-500">
                   <div className="text-lg font-medium mb-2">No recent AI questions</div>
-                  <p className="text-sm">Ask the AI for guidance on life's challenges</p>
+                  <p className="text-sm">Ask the AI for guidance on life&apos;s challenges</p>
                   <Button asChild className="mt-4">
                     <Link href="/dashboard">Ask AI</Link>
                   </Button>

@@ -1,4 +1,13 @@
-export async function callGroqAPI(question: string, verses: any[]) {
+interface Verse {
+  chapter: number;
+  verse: number;
+  shloka?: string;
+  text?: string;
+  meaning_english?: string;
+  translation?: string;
+}
+
+export async function callGroqAPI(question: string, verses: Verse[]) {
   const prompt = `User question: ${question}\nRelevant Bhagavad Gita verses:\n${verses.map(v => `${v.chapter}:${v.verse} - ${v.text}`).join('\n')}\nPlease answer the user's question, quoting the verses where appropriate.`;
   
   console.log('Sending request to Groq API with prompt:', prompt);

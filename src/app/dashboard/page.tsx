@@ -6,10 +6,19 @@ import { Toaster } from "../../components/ui/sonner";
 import { toast } from "sonner";
 import Image from "next/image";
 
+interface Verse {
+  chapter: number;
+  verse: number;
+  shloka?: string;
+  text?: string;
+  meaning_english?: string;
+  translation?: string;
+}
+
 export default function Dashboard() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
-  const [verses, setVerses] = useState<any[]>([]);
+  const [verses, setVerses] = useState<Verse[]>([]);
   const [loading, setLoading] = useState(false);
 
   const handleAsk = async (e: React.FormEvent) => {

@@ -14,6 +14,7 @@ import {
   Activity
 } from "lucide-react";
 import { useAuth } from "../lib/auth";
+import Image from 'next/image';
 
 const navigation = [
   {
@@ -143,7 +144,7 @@ export function Sidebar() {
               {user ? (
                 <>
                   {user.photoURL && (
-                    <img src={user.photoURL} alt="Profile" className="w-8 h-8 rounded-full border" />
+                    <Image src={user.photoURL} alt="Profile" width={32} height={32} className="w-8 h-8 rounded-full border" />
                   )}
                   <div className="flex-1">
                     <div className="text-sm font-medium text-gray-900 truncate">{user.displayName || "User"}</div>
