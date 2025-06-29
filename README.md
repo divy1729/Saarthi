@@ -1,36 +1,208 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Saarthi - AI-Powered Mental Health App
 
-## Getting Started
+A comprehensive mental wellness application that combines ancient wisdom from the Bhagavad Gita with modern mental health practices. Built with Next.js, Firebase, and AI-powered guidance.
 
-First, run the development server:
+## 🌟 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 🤖 AI Life Guidance
+- **Personalized Advice**: Get wisdom-based guidance for life's challenges using Bhagavad Gita verses
+- **Smart Responses**: Powered by Groq AI with contextual understanding
+- **Verse Integration**: Each response includes relevant spiritual teachings
+
+### 🫁 Breathing Exercises
+- **Multiple Techniques**: Box breathing, 4-7-8, triangle breathing, and relaxing breath
+- **Visual Guidance**: Animated breathing circle with real-time feedback
+- **Customizable Sessions**: Set number of cycles and duration
+- **Benefits Display**: Learn about each technique's specific benefits
+
+### 📝 Enhanced Journaling
+- **Guided Prompts**: Pre-written prompts for gratitude, reflection, goals, and more
+- **Categories**: Organize entries by personal, work, health, relationships, etc.
+- **Full CRUD**: Create, read, update, and delete journal entries
+- **Tips & Benefits**: Educational content about journaling benefits
+
+### 🧘‍♀️ Meditation Timer
+- **Guided Sessions**: Beginner's mind, focus & clarity, stress relief, deep relaxation
+- **Custom Timer**: Set your own duration (1-120 minutes)
+- **Ambient Sounds**: Rain, ocean, forest, white noise options
+- **Progress Tracking**: Visual progress bar and completion sounds
+
+### 📊 Mood Tracking
+- **Daily Mood Logging**: Rate your mood on a 1-5 scale with notes
+- **Activity Tracking**: Log activities like exercise, meditation, socializing
+- **Analytics**: View average mood, weekly trends, and patterns
+- **Visual Insights**: Charts and statistics for emotional well-being
+
+### 👤 Enhanced Profile
+- **Comprehensive Stats**: Journal entries, mood entries, average mood, streaks
+- **Activity Feed**: Recent journal and mood entries
+- **Insights**: Most active day, favorite activities, current streaks
+- **Quick Actions**: Easy access to all app features
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **Styling**: Tailwind CSS, shadcn/ui components
+- **Authentication**: Firebase Auth (Google OAuth)
+- **Database**: Firebase Firestore
+- **AI**: Groq API for intelligent responses
+- **Icons**: Lucide React
+- **Notifications**: Sonner toast notifications
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+- Firebase project
+- Groq API key
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd saarthi
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Environment Setup**
+   Create a `.env.local` file in the root directory:
+   ```env
+   GROQ_API_KEY=your_groq_api_key_here
+   ```
+
+4. **Firebase Configuration**
+   - Create a Firebase project
+   - Enable Authentication (Google provider)
+   - Enable Firestore database
+   - Add your Firebase config to `src/lib/firebase.ts`
+
+5. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+6. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+## 📁 Project Structure
+
+```
+saarthi/
+├── src/
+│   ├── app/
+│   │   ├── api/           # API routes
+│   │   ├── components/    # Page-specific components
+│   │   ├── breathing/     # Breathing exercises
+│   │   ├── dashboard/     # AI guidance
+│   │   ├── journaling/    # Journaling feature
+│   │   ├── meditation/    # Meditation timer
+│   │   ├── mood-tracker/  # Mood tracking
+│   │   └── profile/       # User profile
+│   ├── components/
+│   │   ├── ui/           # Reusable UI components
+│   │   └── Sidebar.tsx   # Navigation sidebar
+│   ├── lib/
+│   │   ├── auth.tsx      # Authentication
+│   │   ├── firebase.ts   # Firebase config
+│   │   ├── firestore.ts  # Firestore utilities
+│   │   └── groq.ts       # AI API integration
+│   └── hooks/            # Custom React hooks
+├── public/               # Static assets
+└── verses.csv           # Bhagavad Gita verses data
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔧 Configuration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Firebase Setup
+1. Create a new Firebase project
+2. Enable Google Authentication
+3. Create a Firestore database
+4. Update security rules for user data access
+5. Add your Firebase config to the application
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Groq API Setup
+1. Sign up for a Groq account
+2. Get your API key
+3. Add it to your environment variables
 
-## Learn More
+### Data Import
+The app includes a CSV file with Bhagavad Gita verses. Use the `upload_verses_from_csv.js` script to import them to Firestore:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+node upload_verses_from_csv.js
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎨 Customization
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Styling
+- Modify `src/app/globals.css` for global styles
+- Update Tailwind config in `tailwind.config.js`
+- Customize shadcn/ui components in `src/components/ui/`
 
-## Deploy on Vercel
+### Features
+- Add new breathing techniques in `BreathingExercise.tsx`
+- Create new journal prompts in `Journaling.tsx`
+- Extend meditation sessions in `MeditationTimer.tsx`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔒 Security
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- User authentication required for personal features
+- Firestore security rules protect user data
+- Environment variables for sensitive API keys
+- Input validation and sanitization
+
+## 📱 Responsive Design
+
+The application is fully responsive and works on:
+- Desktop computers
+- Tablets
+- Mobile phones
+- Progressive Web App (PWA) ready
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+1. Connect your GitHub repository to Vercel
+2. Add environment variables in Vercel dashboard
+3. Deploy automatically on push to main branch
+
+### Other Platforms
+- Netlify
+- Firebase Hosting
+- AWS Amplify
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🙏 Acknowledgments
+
+- Bhagavad Gita wisdom and teachings
+- Modern mental health practices and research
+- Open source community and libraries
+- Users and contributors
+
+## 📞 Support
+
+For support, questions, or feature requests:
+- Create an issue on GitHub
+- Contact the development team
+- Check the documentation
+
+---
+
+**Saarthi** - Your companion on the journey to mental wellness and spiritual growth. 🌱✨
