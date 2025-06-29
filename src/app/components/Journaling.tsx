@@ -10,14 +10,8 @@ import { Label } from "../../components/ui/label";
 import { Toaster } from "../../components/ui/sonner";
 import { toast } from "sonner";
 import { 
-  Smile, 
-  Frown, 
-  Meh, 
   Heart, 
   TrendingUp, 
-  Calendar,
-  BarChart3,
-  Activity,
   Lightbulb,
   Target,
   BookOpen,
@@ -81,12 +75,10 @@ const categories = [
 export default function Journaling() {
   const { user } = useAuth();
   const [entry, setEntry] = useState("");
-  const [saved, setSaved] = useState(false);
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [selectedPrompt, setSelectedPrompt] = useState<typeof journalPrompts[0] | null>(null);
@@ -102,7 +94,6 @@ export default function Journaling() {
     if (!user) return;
     const fetchEntries = async () => {
       setLoading(true);
-      setError(null);
       try {
         const q = query(
           collection(db, "journalEntries"),
@@ -114,7 +105,7 @@ export default function Journaling() {
         entriesData.sort((a, b) => b.createdAt - a.createdAt);
         setEntries(entriesData);
       } catch (err) {
-        setError("Failed to load entries. Please try again.");
+        console.error("Failed to load entries. Please try again.", err);
       }
       setLoading(false);
     };
@@ -124,19 +115,16 @@ export default function Journaling() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
-    setError(null);
     try {
       await addDoc(collection(db, "journalEntries"), {
         uid: user.uid,
         text: entry,
         createdAt: Date.now(),
       });
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
       setEntry("");
       toast.success("Entry saved!");
     } catch (err) {
-      setError("Failed to save entry. Please try again.");
+      console.error("Failed to save entry. Please try again.", err);
       toast.error("Failed to save entry.");
     }
   };
@@ -148,15 +136,13 @@ export default function Journaling() {
 
   const handleEditSave = async (id: string) => {
     if (!user) return;
-    setError(null);
     try {
       await updateDoc(doc(db, "journalEntries", id), { text: editText });
       setEditingId(null);
       setEditText("");
-      setSaved(s => !s); // trigger reload
       toast.success("Entry updated!");
     } catch (err) {
-      setError("Failed to update entry. Please try again.");
+      console.error("Failed to update entry. Please try again.", err);
       toast.error("Failed to update entry.");
     }
   };
@@ -164,13 +150,11 @@ export default function Journaling() {
   const handleDelete = async (id: string) => {
     if (!user) return;
     setDeleting(true);
-    setError(null);
     try {
       await deleteDoc(doc(db, "journalEntries", id));
-      setSaved(s => !s); // trigger reload
       toast.success("Entry deleted!");
     } catch (err) {
-      setError("Failed to delete entry. Please try again.");
+      console.error("Failed to delete entry. Please try again.", err);
       toast.error("Failed to delete entry.");
     }
     setDeleting(false);
@@ -325,8 +309,6 @@ export default function Journaling() {
                   )}
                 </div>
               </form>
-              
-              {error && <div className="text-red-600 font-medium mt-2">{error}</div>}
             </CardContent>
           </Card>
 

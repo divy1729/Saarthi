@@ -11,7 +11,6 @@ import {
   Brain, 
   Zap,
   Moon,
-  Sun
 } from "lucide-react";
 
 const breathingTechniques = [
