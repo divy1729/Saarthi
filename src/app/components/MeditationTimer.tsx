@@ -9,16 +9,12 @@ import {
   RotateCcw, 
   Volume2, 
   VolumeX,
-  Clock,
   Music,
   Leaf,
   Waves,
-  Wind,
-  Coffee,
-  Brain,
   Moon,
   CloudRain,
-  TreePine
+  Brain
 } from "lucide-react";
 
 const meditationSessions = [

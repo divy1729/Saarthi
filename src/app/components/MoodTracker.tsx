@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../../lib/auth";
 import { db } from "../../lib/firebase";
 import { collection, addDoc, query, where, getDocs, orderBy, Timestamp } from "firebase/firestore";
@@ -13,7 +13,6 @@ import {
   Frown, 
   Meh, 
   Heart, 
-  TrendingUp, 
   Calendar,
   BarChart3,
   Activity
@@ -46,7 +45,6 @@ export default function MoodTracker() {
   const [notes, setNotes] = useState("");
   const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
   const [entries, setEntries] = useState<MoodEntry[]>([]);
-  const [loading, setLoading] = useState(false);
   const [analytics, setAnalytics] = useState({
     averageMood: 0,
     totalEntries: 0,
@@ -54,23 +52,8 @@ export default function MoodTracker() {
   });
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
+  const fetchEntries = useCallback(async () => {
     if (!user) return;
-    fetchEntries();
-  }, [user]);
-
-  useEffect(() => {
-    if (entries.length > 0) {
-      calculateAnalytics();
-    }
-  }, [entries]);
-
-  const fetchEntries = async () => {
-    setLoading(true);
     try {
       const q = query(
         collection(db, "moodEntries"),
@@ -84,10 +67,9 @@ export default function MoodTracker() {
     } catch (err) {
       toast.error("Failed to load mood entries");
     }
-    setLoading(false);
-  };
+  }, [user]);
 
-  const calculateAnalytics = () => {
+  const calculateAnalytics = useCallback(() => {
     const totalMood = entries.reduce((sum, entry) => sum + entry.mood, 0);
     const average = totalMood / entries.length;
     
@@ -105,7 +87,22 @@ export default function MoodTracker() {
       totalEntries: entries.length,
       weeklyTrend,
     });
-  };
+  }, [entries]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    fetchEntries();
+  }, [user, fetchEntries]);
+
+  useEffect(() => {
+    if (entries.length > 0) {
+      calculateAnalytics();
+    }
+  }, [entries, calculateAnalytics]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

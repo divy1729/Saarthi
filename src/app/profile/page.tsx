@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useAuth } from "../../lib/auth";
 import { db } from "../../lib/firebase";
 import { collection, query, where, getDocs, orderBy, Timestamp } from "firebase/firestore";
@@ -59,7 +59,7 @@ export default function ProfilePage() {
   });
   const [mounted, setMounted] = useState(false);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       // Fetch recent journal entries
@@ -93,7 +93,7 @@ export default function ProfilePage() {
       console.error("Error fetching data:", err);
     }
     setLoading(false);
-  };
+  }, [user]);
 
   useEffect(() => {
     setMounted(true);
