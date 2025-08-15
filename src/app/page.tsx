@@ -207,7 +207,7 @@ export default function HomePage() {
             Your companion on the journey to mental wellness and spiritual growth
           </p>
           <div className="flex justify-center space-x-6 text-sm text-gray-400">
-            <span>© 2024 Saarthi. All rights reserved.</span>
+            <span>© 2025 Saarthi. All rights reserved.</span>
             <span>•</span>
             <span>Privacy Policy</span>
             <span>•</span>
