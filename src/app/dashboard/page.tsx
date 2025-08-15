@@ -36,7 +36,7 @@ export default function Dashboard() {
       setAnswer(data.answer);
       setVerses(data.verses);
       toast.success("AI answered your question!");
-    } catch (err) {
+    } catch {
       toast.error("Something went wrong. Please try again.");
     }
     setLoading(false);
@@ -85,7 +85,7 @@ export default function Dashboard() {
       {answer && (
         <Card className="mb-8 max-w-2xl w-full animate-fade-in-up shadow-xl bg-white/90 backdrop-blur-md transition-all duration-700">
           <CardHeader>
-            <CardTitle className="font-semibold text-lg text-green-800 font-serif">AI's Answer</CardTitle>
+            <CardTitle className="font-semibold text-lg text-green-800 font-serif">AI&apos;s Answer</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-base whitespace-pre-line mb-4 font-sans transition-colors duration-500">
