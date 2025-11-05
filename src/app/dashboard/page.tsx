@@ -1,9 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Button } from "../../components/ui/button";
-import { Toaster } from "../../components/ui/sonner";
-import { toast } from "sonner";
+import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { toast, Toaster } from "sonner";
 import Image from "next/image";
 
 interface Verse {
@@ -15,7 +14,7 @@ interface Verse {
   translation?: string;
 }
 
-export default function Dashboard() {
+export default function DashboardPage() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [verses, setVerses] = useState<Verse[]>([]);
@@ -55,21 +54,20 @@ export default function Dashboard() {
 
       <Card className="mb-8 w-full max-w-2xl shadow-lg bg-white/80 backdrop-blur-md animate-fade-in-up">
         <CardHeader>
-          <CardTitle className="font-semibold text-xl text-blue-800 tracking-wide font-sans">Get Life Guidance</CardTitle>
+          <CardTitle className="text-xl font-serif text-green-800">Your Question</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleAsk} className="flex flex-col gap-4">
+          <form className="flex flex-col gap-4" onSubmit={handleAsk}>
             <textarea
-              className="border rounded-lg p-3 min-h-[80px] focus:outline-none focus:ring-2 focus:ring-blue-400/60 text-base bg-white/80 font-medium transition-all duration-300 shadow-sm hover:shadow-md placeholder:text-gray-400"
-              placeholder="Ask about a tough life situation..."
+              className="h-24 px-3 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500"
               value={question}
               onChange={e => setQuestion(e.target.value)}
+              placeholder="Ask about love, purpose, anxiety, relationships, or anything else..."
               required
-              style={{ fontFamily: 'inherit' }}
             />
             <Button
               type="submit"
-              disabled={loading}
+              disabled={loading || !question.trim()}
               className="w-fit px-6 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-green-400 text-white font-bold shadow-md hover:scale-105 hover:from-blue-600 hover:to-green-500 transition-all duration-300 focus:ring-2 focus:ring-blue-300"
             >
               {loading ? (
@@ -89,9 +87,11 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-base whitespace-pre-line mb-4 font-sans transition-colors duration-500">
+              {/* NEW: Highlight any line containing double quotes */}
               {answer.split('\n').map((line, index) => {
-                const isVerse = /Verse \d+\.\d+/.test(line) || (line.includes('"') && line.includes('Verse'));
-                if (isVerse) {
+                // Check if there's any quoted text in the line
+                const hasDoubleQuote = /"[^"]+"/.test(line);
+                if (hasDoubleQuote) {
                   return (
                     <div key={index} className="my-3 p-3 bg-amber-50 border-l-4 border-amber-400 rounded-r animate-slide-in-left">
                       <p className="font-serif text-amber-800 italic text-lg leading-relaxed">
@@ -101,9 +101,7 @@ export default function Dashboard() {
                   );
                 }
                 return (
-                  <p key={index} className="mb-2 transition-all duration-300">
-                    {line}
-                  </p>
+                  <p key={index} className="mb-2 transition-all duration-300">{line}</p>
                 );
               })}
             </div>
@@ -135,6 +133,7 @@ export default function Dashboard() {
           priority
         />
       </div>
+
       {/* Animations */}
       <style jsx global>{`
         @keyframes fade-in {
