@@ -191,7 +191,7 @@ export default function MeditationTimer() {
   return (
     <div className="max-w-4xl mx-auto w-full">
       {/* Hidden audio elements for ambient sounds */}
-      <audio ref={krishnaRef} src={"/krishna's flute.mp3"} preload="auto" />
+      <audio ref={krishnaRef} src={"/Krishna's flute.mp3"} preload="auto" />
       <audio ref={rainRef} src={"/rain.mp3"} preload="auto" />
       <audio ref={oceanRef} src={"/ocean.mp3"} preload="auto" />
       <div className="mb-8">
